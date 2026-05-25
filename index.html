@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Fernanda ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary: #66fcf1;
+            --secondary: #ff4d6d;
+            --bg: #0b0c10;
+            --card-bg: rgba(31, 40, 51, 0.9);
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: #c5c6c7;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        #sky { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(to bottom, #020111 0%, #20124d 100%); }
+        .star { position: absolute; background-color: white; border-radius: 50%; animation: twinkle infinite ease-in-out; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        header { padding: 8vh 20px 2vh; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.8rem; color: var(--secondary); text-shadow: 0 0 15px rgba(255, 77, 109, 0.5); margin: 0; }
+        .subtitle { font-size: 1.2rem; color: #f8edeb; font-weight: 300; }
+
+        .section {
+            background: var(--card-bg);
+            margin: 30px auto; padding: 40px;
+            border-radius: 20px; max-width: 950px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h2 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+
+        .medical-card {
+            background: rgba(255,255,255,0.05); padding: 25px; border-left: 5px solid var(--secondary);
+            text-align: left; border-radius: 8px; margin: 20px 0; font-size: 1.1rem;
+        }
+        .medical-card strong { color: var(--primary); }
+
+        /* Botones Mágicos */
+        .controls { margin: 25px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .btn-magic {
+            background: transparent; border: 2px solid var(--primary); color: var(--primary);
+            padding: 12px 30px; border-radius: 50px; cursor: pointer; font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif; font-weight: 600; transition: 0.3s;
+        }
+        .btn-magic:hover { background: var(--primary); color: var(--bg); box-shadow: 0 0 20px var(--primary); }
+        .btn-magic.sec { border-color: var(--secondary); color: var(--secondary); }
+        .btn-magic.sec:hover { background: var(--secondary); color: white; box-shadow: 0 0 20px var(--secondary); }
+
+        #equationPanel {
+            display: none; background: #1a1a1a; padding: 25px; border-radius: 15px;
+            text-align: left; font-family: 'Fira Code', monospace; font-size: 0.95rem;
+            color: #88ff88; border: 1px solid #333; margin-top: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .canvas-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; margin-top: 30px; }
+        .canvas-item { display: flex; flex-direction: column; align-items: center; }
+        canvas { background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px solid rgba(102, 252, 241, 0.3); box-shadow: 0 0 15px rgba(102, 252, 241, 0.1); width: 100%; max-width: 250px; height: 250px; }
+        #nameCanvas { max-width: 600px; height: 150px; margin-top: 20px; width: 100%; }
+        .math-text { font-size: 0.9rem; color: #c5c6c7; margin-top: 10px; font-style: italic; }
+
+        .turntable-wrapper { display: flex; flex-direction: column; align-items: center; gap: 25px; margin-top: 20px; }
+        .turntable-base {
+            width: 320px; height: 320px; background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            border-radius: 20px; position: relative; border: 5px solid #444;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.1);
+        }
+        .platter {
+            width: 260px; height: 260px; background: #111; border-radius: 50%;
+            position: absolute; top: 25px; left: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            border: 2px solid #333;
+        }
+        .vinyl {
+            width: 250px; height: 250px; background: #050505; border-radius: 50%;
+            position: absolute; top: 5px; left: 5px; 
+            background-image: repeating-radial-gradient(circle, #111, #111 2px, #050505 3px, #050505 6px);
+            transition: transform 0.1s linear;
+        }
+        .vinyl-label {
+            width: 80px; height: 80px; background: var(--secondary); border-radius: 50%;
+            position: absolute; top: 85px; left: 85px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 10px; color: white; font-weight: bold; text-align: center; border: 2px solid #222;
+        }
+        .hole { width: 10px; height: 10px; background: #d1d1d1; border-radius: 50%; margin-top: 5px; }
+        
+        .tonearm-base {
+            width: 40px; height: 40px; background: #555; border-radius: 50%;
+            position: absolute; top: 40px; right: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            border: 2px solid #777;
+        }
+        .tonearm {
+            width: 140px; height: 8px; background: linear-gradient(to bottom, #ccc, #888);
+            position: absolute; top: 56px; right: 35px; transform-origin: right center;
+            transform: rotate(-45deg); transition: transform 0.8s ease-in-out; border-radius: 4px;
+            box-shadow: -2px 5px 5px rgba(0,0,0,0.4);
+        }
+        .headshell {
+            width: 15px; height: 25px; background: #222; position: absolute;
+            left: -10px; top: -8px; border-radius: 3px; transform: rotate(20deg);
+        }
+        
+        .spinning { animation: spin 2s linear infinite; }
+        .tonearm-active { transform: rotate(-10deg); }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Minijuegos */
+        .question-block { background: rgba(0,0,0,0.25); padding: 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(69, 162, 158, 0.4); text-align: left; }
+        .question-block h3 { margin-top: 0; color: #f8edeb; font-size: 1.1rem; }
+        .options-container { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .btn-opt {
+            background: rgba(11, 12, 16, 0.6); border: 2px solid var(--primary); color: var(--primary);
+            width: 100%; max-width: 600px; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif; font-size: 1rem; text-align: left;
+        }
+        .btn-opt:hover { background: var(--primary); color: var(--bg); }
+        .feedback { margin-top: 15px; font-weight: 600; min-height: 24px; text-align: center; }
+        
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        footer { padding: 40px; font-family: 'Dancing Script', cursive; color: var(--secondary); font-size: 1.6rem; }
+    </style>
+</head>
+<body>
+
+    <div id="sky"></div>
+
+    <header>
+        <h1>Expediente Clínico de mi Corazón</h1>
+        <p class="subtitle">Para: Mi fisio favorita | De: El niño nerd de sistemas y el amor de tu vida</p>
+    </header>
+
+    <div class="section">
+        <h2>Reporte Inicial 📋</h2>
+        <div class="medical-card">
+            <p><strong>Paciente (y desarrollador):</strong> El niño nerd de sistemas y el amor de tu vida.</p>
+            <p><strong>Especialista a cargo:</strong> Fernanda, la niña más linda y mi fisio personal.</p>
+            <p><strong>Diagnóstico:</strong> Taquicardia severa y sonrisa involuntaria crónica cada vez que pienso en ti. Contractura en el alma por querer abrazarte y no tenerte cerca en este preciso instante.</p>
+            <p><strong>Tratamiento prescrito:</strong> Tu presencia, tus mensajes, terapia manual directa al corazón y no soltarte nunca.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>El Código de lo que Siento 💻❤️</h2>
+        <p>Las palabras a veces fallan, pero las matemáticas y el código no mienten. He programado estas funciones para que veas exactamente cómo se construye lo que siento por ti.</p>
+        
+        <div class="controls">
+            <button class="btn-magic" onclick="startMagic()">✨ Iniciar Animación Matemática</button>
+            <button class="btn-magic sec" onclick="toggleEquations()">🧬 Ver el Código Fuente</button>
+        </div>
+
+        <div id="equationPanel">
+            // SCRIPT DE AMOR PARA FERNANDA<br>
+            // Autor: Niño Nerd de Sistemas<br><br>
+            <span style="color: #ff79c6;">function</span> dibujarCorazon() { <br>
+            &nbsp;&nbsp;x = 16 * sin³(t); <br>
+            &nbsp;&nbsp;y = 13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t);<br>
+            }<br><br>
+            <span style="color: #ff79c6;">function</span> dibujarFlor() { <br>
+            &nbsp;&nbsp;// Rosa Polar Perfecta<br>
+            &nbsp;&nbsp;r = 100 * sin(5 * θ);<br>
+            }<br><br>
+            <span style="color: #ff79c6;">function</span> dibujarInfinito() { <br>
+            &nbsp;&nbsp;// Lemniscata de Bernoulli<br>
+            &nbsp;&nbsp;x = (escala * cos(t)) / (1 + sin²(t));<br>
+            &nbsp;&nbsp;y = (escala * sin(t) * cos(t)) / (1 + sin²(t));<br>
+            }<br><br>
+            <span style="color: #ff79c6;">function</span> procesarNombre() { <br>
+            &nbsp;&nbsp;objetivo = "Fernanda";<br>
+            &nbsp;&nbsp;metodo = "Interpolacion_Vectorial_Infinita";<br>
+            }
+        </div>
+
+        <div class="canvas-grid">
+            <div class="canvas-item">
+                <canvas id="heartCanvas" width="250" height="250"></canvas>
+                <p class="math-text">Curva Paramétrica del Corazón</p>
+            </div>
+            <div class="canvas-item">
+                <canvas id="flowerCanvas" width="250" height="250"></canvas>
+                <p class="math-text">Ecuación Polar de la Flor</p>
+            </div>
+            <div class="canvas-item">
+                <canvas id="infinityCanvas" width="250" height="250"></canvas>
+                <p class="math-text">Lemniscata (Amor Infinito)</p>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <canvas id="nameCanvas" width="600" height="150"></canvas>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Playlist de Terapia 🎵</h2>
+        <p>Diseñé este tocadiscos desde cero con código solo para ti. Enciende la música de nuestra historia.</p>
+        <div class="turntable-wrapper">
+            <div class="turntable-base">
+                <div class="platter">
+                    <div id="vinyl" class="vinyl">
+                        <div class="vinyl-label">
+                            LET ME LOVE YOU<br><span style="font-size: 6px; font-weight: normal; margin-top:2px;">DJ SNAKE</span>
+                            <div class="hole"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tonearm-base"></div>
+                <div id="tonearm" class="tonearm">
+                    <div class="headshell"></div>
+                </div>
+            </div>
+            
+            <audio id="myAudio" src="cancion.mp3" loop></audio>
+            
+            <button class="btn-magic" id="playBtn" onclick="toggleAudio()">▶️ Reproducir / Pausar</button>
+            <p style="font-size: 0.85rem; color: #888;">(Nota nerd: Guarda un archivo llamado <code>cancion.mp3</code> en la misma carpeta que esta página web para que suene sin necesidad de internet).</p>
+            <p style="font-style: italic; color: var(--primary);">✨ Más canciones próximamente...</p>
+        </div>
+    </div>
+
+    <div class="section" id="minijuego">
+        <h2>Examen Final de Anatomía, Sistemas y Destino 🧠🖥️</h2>
+        <p>Como mi fisio, tienes que aprobar esto. Si te equivocas, la página te dejará intentar de nuevo inmediatamente. ¡Demuestra lo que sabes!</p>
+
+        <div class="question-block">
+            <h3>1. ¿Qué músculo es el principal responsable de que sonría como tonto cuando te veo sonreir?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 1, false)">A) El esternocleidomastoideo</button>
+                <button class="btn-opt" onclick="ans(this, 1, true)">B) El cigomático mayor (activado exclusivamente por ti)</button>
+                <button class="btn-opt" onclick="ans(this, 1, false)">C) El cuádriceps femoral</button>
+            </div>
+            <div id="feedback-1" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>2. ¿Cómo se llama el fenómeno donde un chico de sistemas se enamora perdidamente de una fisio ?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 2, false)">A) Un error 404 (Destino no encontrado).</button>
+                <button class="btn-opt" onclick="ans(this, 2, false)">B) Un fallo en la Matrix.</button>
+                <button class="btn-opt" onclick="ans(this, 2, true)">C) Sincronización perfecta de hardware y software.</button>
+            </div>
+            <div id="feedback-2" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>3. En términos de nuestra historia, ¿cómo funcionamos juntos?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 3, false)">A) Como una mala postura que duele.</button>
+                <button class="btn-opt" onclick="ans(this, 3, true)">B) Yo arreglo las computadoras y tú me arreglas la vida. El equipo perfecto.</button>
+            </div>
+            <div id="feedback-3" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>4. Si mi corazón llega con una contractura severa por exceso de amor, ¿cuál es el mejor tratamiento?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 4, false)">A) Terapia de frío y reposo absoluto a distancia.</button>
+                <button class="btn-opt" onclick="ans(this, 4, true)">B) Un abrazo largo y muchos besos de mi fisio favorita.</button>
+                <button class="btn-opt" onclick="ans(this, 4, false)">C) Estiramientos pasivos.</button>
+            </div>
+            <div id="feedback-4" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>5. Sabiendo que cumples el 2 de junio y yo el 9 de septiembre...</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 5, true)">A) Son las mejores fechas del calendario de toda la galaxia.</button>
+                <button class="btn-opt" onclick="ans(this, 5, false)">B) Es pura coincidencia astronómica sin importancia.</button>
+            </div>
+            <div id="feedback-5" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>6. Si nuestra relación fuera un tratamiento de fisioterapia, ¿cuál sería?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 6, false)">A) Ultrasonido, porque hace mucho ruido y no se siente.</button>
+                <button class="btn-opt" onclick="ans(this, 6, true)">B) Terapia manual perfecta: calma todo y hace sentir increíblemente bien.</button>
+            </div>
+            <div id="feedback-6" class="feedback"></div>
+        </div>
+
+        <div class="question-block">
+            <h3>7. ¿Cuál es el diagnóstico final definitivo de este expediente?</h3>
+            <div class="options-container">
+                <button class="btn-opt" onclick="ans(this, 7, false)">A) Necesitamos estudiar más anatomía y programación.</button>
+                <button class="btn-opt" onclick="ans(this, 7, true)">B) Que me gustas muchísimo, eres el amor de mi vida y me haces muy feliz.</button>
+            </div>
+            <div id="feedback-7" class="feedback"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        Compilado con amor, lógica y fisioterapia. 💖<br>
+        <span style="font-size: 1rem; color: #c5c6c7; font-family: 'Poppins', sans-serif;">Exclusivo para Fernanda.</span>
+    </footer>
+
+    <script>
+        const sky = document.getElementById('sky');
+        for (let i = 0; i < 150; i++) {
+            let s = document.createElement('div');
+            s.className = 'star';
+            s.style.width = s.style.height = Math.random() * 3 + 'px';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.top = Math.random() * 100 + 'vh';
+            s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            sky.appendChild(s);
+        }
+
+        let heartT = 0, flowerTheta = 0, infT = 0, animId1, animId2, animId3;
+        const hCtx = document.getElementById('heartCanvas').getContext('2d');
+        const fCtx = document.getElementById('flowerCanvas').getContext('2d');
+        const iCtx = document.getElementById('infinityCanvas').getContext('2d');
+        const nCtx = document.getElementById('nameCanvas').getContext('2d');
+        
+        hCtx.translate(125, 125); fCtx.translate(125, 125); iCtx.translate(125, 125);
+
+        function startMagic() {
+            heartT = 0; flowerTheta = 0; infT = 0;
+            cancelAnimationFrame(animId1); cancelAnimationFrame(animId2); cancelAnimationFrame(animId3);
+            hCtx.clearRect(-125, -125, 250, 250);
+            fCtx.clearRect(-125, -125, 250, 250);
+            iCtx.clearRect(-125, -125, 250, 250);
+            nCtx.clearRect(0, 0, 600, 150);
+            
+            drawHeart();
+            setTimeout(drawFlower, 500);
+            setTimeout(drawInf, 1000);
+            setTimeout(drawName, 1500);
+        }
+
+        function drawHeart() {
+            if (heartT > Math.PI * 2) return;
+            let x = 16 * Math.pow(Math.sin(heartT), 3);
+            let y = 13 * Math.cos(heartT) - 5 * Math.cos(2 * heartT) - 2 * Math.cos(3 * heartT) - Math.cos(4 * heartT);
+            hCtx.fillStyle = '#ff4d6d';
+            hCtx.beginPath(); hCtx.arc(x * 6, -y * 6 - 5, 1.5, 0, Math.PI * 2); hCtx.fill();
+            heartT += 0.04; animId1 = requestAnimationFrame(drawHeart);
+        }
+
+        function drawFlower() {
+            if (flowerTheta > Math.PI * 2) return;
+            let r = 90 * Math.sin(5 * flowerTheta);
+            let x = r * Math.cos(flowerTheta);
+            let y = r * Math.sin(flowerTheta);
+            fCtx.fillStyle = '#66fcf1';
+            fCtx.beginPath(); fCtx.arc(x, y, 1.5, 0, Math.PI * 2); fCtx.fill();
+            flowerTheta += 0.02; animId2 = requestAnimationFrame(drawFlower);
+        }
+
+        function drawInf() {
+            if (infT > Math.PI * 2) return;
+            let den = 1 + Math.pow(Math.sin(infT), 2);
+            let x = (90 * Math.cos(infT)) / den;
+            let y = (90 * Math.sin(infT) * Math.cos(infT)) / den;
+            iCtx.fillStyle = '#45a29e';
+            iCtx.beginPath(); iCtx.arc(x, y, 1.5, 0, Math.PI * 2); iCtx.fill();
+            infT += 0.02; animId3 = requestAnimationFrame(drawInf);
+        }
+
+        function drawName() {
+            nCtx.font = "80px 'Dancing Script', cursive";
+            nCtx.strokeStyle = "#ff4d6d";
+            nCtx.lineWidth = 2;
+            nCtx.textAlign = "center";
+            nCtx.textBaseline = "middle";
+            let str = "Fernanda", current = 0;
+            let timer = setInterval(() => {
+                nCtx.clearRect(0,0,600,150);
+                nCtx.strokeText(str.slice(0, current), 300, 75);
+                current++;
+                if(current > str.length) { 
+                    clearInterval(timer);
+                    nCtx.fillStyle = "rgba(255, 77, 109, 0.8)";
+                    nCtx.fillText(str, 300, 75);
+                }
+            }, 150);
+        }
+
+        function toggleEquations() {
+            const p = document.getElementById('equationPanel');
+            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        }
+
+        const audio = document.getElementById('myAudio');
+        const vinyl = document.getElementById('vinyl');
+        const arm = document.getElementById('tonearm');
+        const playBtn = document.getElementById('playBtn');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                vinyl.classList.remove('spinning');
+                arm.classList.remove('tonearm-active');
+                playBtn.innerHTML = "▶️ Reproducir";
+            } else {
+                audio.play().catch(e => alert("Coloca el archivo cancion.mp3 en tu carpeta para escuchar la música."));
+                vinyl.classList.add('spinning');
+                arm.classList.add('tonearm-active');
+                playBtn.innerHTML = "⏸️ Pausar";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        const successMessages = [
+            "¡Correcto! Qué inteligente es mi fisio. ❤️",
+            "¡Exacto! Somos el sistema perfecto. 💻",
+            "¡SÍ! Me arreglas la vida entera. 🥰",
+            "¡Obvio! Yo siempre quiero mi terapia contigo. 😉",
+            "¡Acertaste! El 2 de junio es mi fecha favorita. 🌟",
+            "¡Muy bien! Manos que curan el alma. ✨",
+            "¡SÍ A TODO! Eres el amor de mi vida. ❤️❤️❤️"
+        ];
+
+        function ans(button, questionId, isCorrect) {
+            const feedbackDiv = document.getElementById('feedback-' + questionId);
+            
+            if(isCorrect) {
+                feedbackDiv.innerHTML = successMessages[questionId - 1];
+                feedbackDiv.style.color = "#ff4d6d";
+                button.style.backgroundColor = "#ff4d6d";
+                button.style.borderColor = "#ff4d6d";
+                button.style.color = "white";
+                
+                const siblingButtons = button.parentElement.getElementsByTagName('button');
+                for(let btn of siblingButtons) {
+                    btn.disabled = true;
+                    if(btn !== button) btn.style.opacity = "0.2";
+                }
+            } else {
+                feedbackDiv.innerHTML = "Mmm... piénsalo un poquito más. ¡Inténtalo de nuevo!";
+                feedbackDiv.style.color = "#c5c6c7";
+                button.classList.add("shake");
+                setTimeout(() => button.classList.remove("shake"), 500);
+            }
+        }
+    </script>
+</body>
+</html>
