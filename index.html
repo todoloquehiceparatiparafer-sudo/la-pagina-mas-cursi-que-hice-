@@ -48,7 +48,6 @@
         }
         .medical-card strong { color: var(--primary); }
 
-        /* Botones Mágicos */
         .controls { margin: 25px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .btn-magic {
             background: transparent; border: 2px solid var(--primary); color: var(--primary);
@@ -71,51 +70,15 @@
         #nameCanvas { max-width: 600px; height: 150px; margin-top: 20px; width: 100%; }
         .math-text { font-size: 0.9rem; color: #c5c6c7; margin-top: 10px; font-style: italic; }
 
-        .turntable-wrapper { display: flex; flex-direction: column; align-items: center; gap: 25px; margin-top: 20px; }
-        .turntable-base {
-            width: 320px; height: 320px; background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-            border-radius: 20px; position: relative; border: 5px solid #444;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.1);
-        }
-        .platter {
-            width: 260px; height: 260px; background: #111; border-radius: 50%;
-            position: absolute; top: 25px; left: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            border: 2px solid #333;
-        }
-        .vinyl {
-            width: 250px; height: 250px; background: #050505; border-radius: 50%;
-            position: absolute; top: 5px; left: 5px; 
-            background-image: repeating-radial-gradient(circle, #111, #111 2px, #050505 3px, #050505 6px);
-            transition: transform 0.1s linear;
-        }
-        .vinyl-label {
-            width: 80px; height: 80px; background: var(--secondary); border-radius: 50%;
-            position: absolute; top: 85px; left: 85px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 10px; color: white; font-weight: bold; text-align: center; border: 2px solid #222;
-        }
-        .hole { width: 10px; height: 10px; background: #d1d1d1; border-radius: 50%; margin-top: 5px; }
-        
-        .tonearm-base {
-            width: 40px; height: 40px; background: #555; border-radius: 50%;
-            position: absolute; top: 40px; right: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            border: 2px solid #777;
-        }
-        .tonearm {
-            width: 140px; height: 8px; background: linear-gradient(to bottom, #ccc, #888);
-            position: absolute; top: 56px; right: 35px; transform-origin: right center;
-            transform: rotate(-45deg); transition: transform 0.8s ease-in-out; border-radius: 4px;
-            box-shadow: -2px 5px 5px rgba(0,0,0,0.4);
-        }
-        .headshell {
-            width: 15px; height: 25px; background: #222; position: absolute;
-            left: -10px; top: -8px; border-radius: 3px; transform: rotate(20deg);
-        }
-        
+       .turntable-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .turntable-base { width: 300px; height: 300px; background: #222; border-radius: 20px; position: relative; margin: 0 auto; overflow: hidden; border: 5px solid #444; }
+        .platter { width: 250px; height: 250px; background: #000; border-radius: 50%; position: absolute; top: 25px; left: 25px; display: flex; align-items: center; justify-content: center; border: 2px solid #333; }
+        .vinyl-label { width: 80px; height: 80px; border-radius: 50%; background: #555; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .tonearm { width: 10px; height: 120px; background: #ccc; position: absolute; top: 20px; right: 40px; transform-origin: top center; transform: rotate(30deg); transition: 0.5s; }
+        .tonearm-active { transform: rotate(0deg); }
         .spinning { animation: spin 2s linear infinite; }
-        .tonearm-active { transform: rotate(-10deg); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Minijuegos */
         .question-block { background: rgba(0,0,0,0.25); padding: 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(69, 162, 158, 0.4); text-align: left; }
         .question-block h3 { margin-top: 0; color: #f8edeb; font-size: 1.1rem; }
         .options-container { display: flex; flex-direction: column; gap: 10px; align-items: center; }
@@ -207,32 +170,67 @@
         </div>
     </div>
 
-    <div class="section">
-        <h2>Playlist de Terapia 🎵</h2>
-        <p>Diseñé este tocadiscos desde cero con código solo para ti. Enciende la música de nuestra historia.</p>
-        <div class="turntable-wrapper">
-            <div class="turntable-base">
-                <div class="platter">
-                    <div id="vinyl" class="vinyl">
-                        <div class="vinyl-label">
-                            LET ME LOVE YOU<br><span style="font-size: 6px; font-weight: normal; margin-top:2px;">DJ SNAKE</span>
-                            <div class="hole"></div>
-                        </div>
+   <div class="section">
+    <h2>Playlist de Terapia 🎵</h2>
+    <p>Diseñé este tocadiscos desde cero con código solo para ti. Selecciona una canción para comenzar.</p>
+    
+    <div class="turntable-wrapper">
+        <div class="selector" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button class="btn-magic" onclick="loadTrack('letmeloveyou', 'LET ME LOVE YOU', '#ff4d6d')">Let Me Love You</button>
+            <button class="btn-magic" onclick="loadTrack('morfina', 'MORFINA', '#66fcf1')">Morfina</button>
+            <button class="btn-magic" onclick="loadTrack('astros', 'ASTROS', '#f1c40f')">Astros</button>
+        </div>
+        
+        <div class="turntable-base">
+            <div class="platter" id="vinyl">
+                <div class="vinyl">
+                    <div class="vinyl-label" id="vinyl-label-color">
+                        <span id="song-title">ESPERA</span>
                     </div>
                 </div>
-                <div class="tonearm-base"></div>
-                <div id="tonearm" class="tonearm">
-                    <div class="headshell"></div>
-                </div>
             </div>
-            
-            <audio id="myAudio" src="cancion.mp3" loop></audio>
-            
-            <button class="btn-magic" id="playBtn" onclick="toggleAudio()">▶️ Reproducir / Pausar</button>
-            <p style="font-size: 0.85rem; color: #888;">(Nota nerd: Guarda un archivo llamado <code>cancion.mp3</code> en la misma carpeta que esta página web para que suene sin necesidad de internet).</p>
-            <p style="font-style: italic; color: var(--primary);">✨ Más canciones próximamente...</p>
+            <div class="tonearm" id="tonearm"></div>
         </div>
+        
+        <audio id="myAudio"></audio>
+        <button class="btn-magic" style="margin-top:20px;" onclick="toggleAudio()">▶️ Play / ⏸️ Pause</button>
     </div>
+</div>
+        <p style="font-size: 0.85rem; color: #888; margin-top: 15px;">
+            (Nota nerd: Asegúrate de tener los archivos <code>letmeloveyou.mp3</code>, <code>morfina.mp3</code> y <code>astros.mp3</code> en la misma carpeta que esta página web para que suene sin necesidad de internet).
+        </p>
+        <p style="font-style: italic; color: var(--primary);">✨ Más canciones próximamente...</p>
+    </div>
+</div>
+
+<style>
+    .vinyl-in { animation: dropIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    @keyframes dropIn {
+        from { transform: translateY(-300px) rotate(-180deg); opacity: 0; }
+        to { transform: translateY(0) rotate(0deg); opacity: 1; }
+    }
+</style>
+
+<script>
+
+    function loadTrack(file, name, color) {
+    const audio = document.getElementById('myAudio');
+    const vinyl = document.getElementById('vinyl');
+    const label = document.getElementById('vinyl-label-color');
+    const title = document.getElementById('song-title');
+    const arm = document.getElementById('tonearm');
+
+    audio.src = file + ".mp3";
+    title.innerText = name;
+    label.style.backgroundColor = color;
+    
+    audio.play();
+    vinyl.classList.add('spinning');
+    arm.classList.add('tonearm-active');
+}
+
+    
+</script>
 
     <div class="section" id="minijuego">
         <h2>Examen Final de Anatomía, Sistemas y Destino 🧠🖥️</h2>
@@ -406,19 +404,16 @@
         let isPlaying = false;
 
         function toggleAudio() {
-            if (isPlaying) {
-                audio.pause();
-                vinyl.classList.remove('spinning');
-                arm.classList.remove('tonearm-active');
-                playBtn.innerHTML = "▶️ Reproducir";
-            } else {
-                audio.play().catch(e => alert("Coloca el archivo cancion.mp3 en tu carpeta para escuchar la música."));
-                vinyl.classList.add('spinning');
-                arm.classList.add('tonearm-active');
-                playBtn.innerHTML = "⏸️ Pausar";
-            }
-            isPlaying = !isPlaying;
+            if (audio.paused) {
+            audio.play();
+            vinyl.classList.add('spinning');
+            arm.classList.add('tonearm-active');
+        } else {
+            audio.pause();
+            vinyl.classList.remove('spinning');
+            arm.classList.remove('tonearm-active');
         }
+    }
 
         const successMessages = [
             "¡Correcto! Qué inteligente es mi fisio. ❤️",
